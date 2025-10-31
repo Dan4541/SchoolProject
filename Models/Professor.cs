@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SchoolProject.Models
 {
-    public class Profesor
+    public class Professor
     {
         [Key]
         public int ProfessorId { get; set; }
@@ -40,12 +40,12 @@ namespace SchoolProject.Models
         public DateTime HiringDate { get; set; } = DateTime.UtcNow;
         public bool IsActive { get; set; } = true;
 
-        // Foreign key to User 1:1 relationship
-        //public int UserId { get; set; }
-        //[ForeignKey("UserId")]
-        //public virtual User? User { get; set; }
+        //Foreign key to User 1:1 relationship
+        public int? UserId { get; set; }
+        [ForeignKey("UserId")]
+        public virtual User User { get; set; }
 
         //// Navigation property to Courses
-        //public virtual ICollection<Course> Courses { get; set; } = new List<Course>();
+        public virtual ICollection<Course> Courses { get; set; } = new List<Course>();
     }
 }

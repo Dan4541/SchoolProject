@@ -57,8 +57,8 @@ namespace SchoolProject.Models
         public DateTime EnrollmentDate { get; set; } = DateTime.UtcNow;
         public bool IsActive { get; set; } = true;
 
-        //public virtual ICollection<Enrollment> Enrollments { get; set; } = new List<Enrollment>();
-        //public virtual ICollection<Score> Scores { get; set; } = new List<Score>();
+        public virtual ICollection<Enrollment> Enrollments { get; set; } = new List<Enrollment>();
+        public virtual ICollection<Score> Scores { get; set; } = new List<Score>();
 
     }
 }

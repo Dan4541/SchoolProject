@@ -35,13 +35,13 @@ namespace SchoolProject.Models
         public bool IsActive { get; set; } = true;
 
         // Foreign key to Professor
-        //public int ProfessorId { get; set; }
-        //[ForeignKey("ProfessorId")]
-        //public virtual Professor? Professor { get; set; }
+        public int ProfessorId { get; set; }
+        [ForeignKey("ProfessorId")]
+        public virtual Professor? Professor { get; set; }
 
         //// Navigation property to Enrollments
-        //public virtual ICollection<Enrollment> Enrollments { get; set; } = new List<Enrollment>();
-        //public virtual ICollection<Score> Scores { get; set; } = new List<Score>();
-        //public virtual ICollection<ClassSchedule> ClassSchedules { get; set; } = new List<ClassSchedule>();
+        public virtual ICollection<Enrollment> Enrollments { get; set; } = new List<Enrollment>();
+        public virtual ICollection<Score> Scores { get; set; } = new List<Score>();
+        public virtual ICollection<ClassSchedule> ClassSchedules { get; set; } = new List<ClassSchedule>();
     }
 }

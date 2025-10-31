@@ -38,6 +38,16 @@ namespace SchoolProject.Data.Configurations
             builder.Property(u => u.IsActive)
                    .IsRequired()
                    .HasDefaultValue(true);
+
+            // Índices únicos
+            builder.HasIndex(u => u.UserName)
+                .IsUnique()
+                .HasDatabaseName("IX_User_UserName");
+
+            builder.HasIndex(u => u.Email)
+                .IsUnique()
+                .HasDatabaseName("IX_User_Email");
+
         }
     }
 }

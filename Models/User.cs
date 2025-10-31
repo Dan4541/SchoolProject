@@ -34,6 +34,6 @@ namespace SchoolProject.Models
         public DateTime LastAccess { get; set; }
 
         // Navigation property to Professor
-        //public virtual Professor? Professor { get; set; }
+        public virtual Professor? Professor { get; set; }
     }
 }
