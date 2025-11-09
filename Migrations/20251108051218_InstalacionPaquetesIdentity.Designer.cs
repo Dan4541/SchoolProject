@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SchoolProject.Data;
 
@@ -11,9 +12,11 @@ using SchoolProject.Data;
 namespace SchoolProject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251108051218_InstalacionPaquetesIdentity")]
+    partial class InstalacionPaquetesIdentity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -342,17 +345,6 @@ namespace SchoolProject.Migrations
 
                     b.HasKey("StudentId");
 
-                    b.HasIndex("Code")
-                        .IsUnique()
-                        .HasDatabaseName("IX_Student_Code");
-
-                    b.HasIndex("Email")
-                        .IsUnique()
-                        .HasDatabaseName("IX_Estudiante_Email");
-
-                    b.HasIndex("Lastname")
-                        .HasDatabaseName("IX_Student_Lastname");
-
                     b.ToTable("Students");
                 });
 
@@ -500,7 +492,7 @@ namespace SchoolProject.Migrations
                     b.HasOne("SchoolProject.Models.User", "User")
                         .WithOne("Professor")
                         .HasForeignKey("SchoolProject.Models.Professor", "UserId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("User");
                 });

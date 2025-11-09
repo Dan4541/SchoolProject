@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SchoolProject.Data;
@@ -12,10 +13,12 @@ namespace SchoolProject.Controllers
     public class AuthController : Controller
     {
         private readonly ApplicationDbContext _ctx;
+        private readonly SignInManager<User> _signInManager;
 
-        public AuthController(ApplicationDbContext context)
+        public AuthController(ApplicationDbContext context, SignInManager<User> signInManager)
         {
             _ctx = context;
+            _signInManager = signInManager;
         }
 
         [HttpGet]
@@ -23,12 +26,25 @@ namespace SchoolProject.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Dashboard", "Dashboard");
             }
 
             ViewData["ReturnUrl"] = returnUrl;
             return View();
         }
+
+        [HttpPost]
+        // Se recomienda el [ValidateAntiForgeryToken] para proteger contra CSRF
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Logout()
+        {
+            // 1. Cierra la sesión del usuario (destruye la cookie)
+            //await _signInManager.SignOutAsync();
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index", "Home");
+        }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -84,8 +100,8 @@ namespace SchoolProject.Controllers
             // Propiedades de autenticación
             var authProperties = new AuthenticationProperties
             {
-                IsPersistent = model.RemenberMe,
-                ExpiresUtc = model.RemenberMe ?
+                IsPersistent = model.RememberMe,
+                ExpiresUtc = model.RememberMe ?
                     DateTimeOffset.UtcNow.AddDays(30) :
                     DateTimeOffset.UtcNow.AddHours(8)
             };
@@ -102,7 +118,7 @@ namespace SchoolProject.Controllers
                 return Redirect(returnUrl);
             }
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Dashboard", "Dashboard");
         }
 
         /// <summary>

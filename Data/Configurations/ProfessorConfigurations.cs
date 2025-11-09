@@ -51,12 +51,15 @@ namespace SchoolProject.Data.Configurations
                 .IsUnique()
                 .HasDatabaseName("IX_Professor_Email");
 
+
+            builder.Property(p => p.UserId)
+                .IsRequired(false);
+
             // Relación con Usuario (1 a 1 opcional)
             builder.HasOne(p => p.User)
                 .WithOne(u => u.Professor)
                 .HasForeignKey<Professor>(p => p.UserId)
-                .OnDelete(DeleteBehavior.Restrict)
-                .IsRequired(false);
+                .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }

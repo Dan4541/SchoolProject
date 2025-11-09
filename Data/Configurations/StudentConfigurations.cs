@@ -59,16 +59,27 @@ namespace SchoolProject.Data.Configurations
                 .HasDefaultValue(true);
 
             // Índices
-            //builder.HasIndex(e => e.Code)
-            //    .IsUnique()
-            //    .HasDatabaseName("IX_Student_Code");
+            builder.HasIndex(e => e.Code)
+                .IsUnique()
+                .HasDatabaseName("IX_Student_Code");
 
-            //builder.HasIndex(e => e.Email)
-            //    .IsUnique()
-            //    .HasDatabaseName("IX_Estudiante_Email");
+            builder.HasIndex(e => e.Email)
+                .IsUnique()
+                .HasDatabaseName("IX_Estudiante_Email");
 
-            //builder.HasIndex(e => e.Lastname)
-            //    .HasDatabaseName("IX_Student_Lastname");
+            builder.HasIndex(e => e.Lastname)
+                .HasDatabaseName("IX_Student_Lastname");
+
+            builder.HasMany(e => e.Enrollments)
+                .WithOne(i => i.Student)
+                .HasForeignKey(i => i.StudentId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasMany(e => e.Scores)
+                .WithOne(c => c.Student)
+                .HasForeignKey(c => c.StudentId)
+                .OnDelete(DeleteBehavior.Cascade);
+
         }
     }
 }

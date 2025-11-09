@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using SchoolProject.Data;
+using SchoolProject.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,14 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
         builder.Configuration.GetConnectionString("DefaultConnection"),
         sqlOptions => sqlOptions.EnableRetryOnFailure()
     ));
+
+// 1. Agregar el servicio de Identity al contenedor
+builder.Services.AddDefaultIdentity<User>(options =>
+{
+    // Opcional: Configuraciones de contraseña, bloqueo, etc.
+    options.SignIn.RequireConfirmedAccount = false;
+})
+.AddEntityFrameworkStores<ApplicationDbContext>();
 
 // 2. Configurar autenticación con Cookies
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -50,7 +59,6 @@ builder.Services.AddSession(options =>
 
 // 6. Configurar servicios HTTP Context (para acceder al contexto en servicios)
 builder.Services.AddHttpContextAccessor();
-
 
 var app = builder.Build();
 
