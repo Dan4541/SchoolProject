@@ -20,7 +20,7 @@ namespace SchoolProject.ViewModels
 
         [Required(ErrorMessage = "La fecha de nacimiento es requerida")]
         [DataType(DataType.Date)]
-        public DateTime BirthDate { get; set; }
+        public DateTime BirthDate { get; set; }        // <-- nullable
 
         [Required(ErrorMessage = "El género es requerido")]
         [StringLength(10, ErrorMessage = "El género no puede exceder 10 caracteres")]
@@ -32,7 +32,7 @@ namespace SchoolProject.ViewModels
 
         [Required(ErrorMessage = "El teléfono es requerido")]
         [StringLength(20, ErrorMessage = "El teléfono no puede exceder 20 caracteres")]
-        [Phone(ErrorMessage = "Formato de teléfono inválido")]
+        [RegularExpression(@"^[0-9\-\+\s\(\)]+$", ErrorMessage = "Formato de teléfono inválido")]
         public string Phone { get; set; }
 
         [Required(ErrorMessage = "El email es requerido")]
@@ -47,7 +47,7 @@ namespace SchoolProject.ViewModels
 
         [Required(ErrorMessage = "El teléfono del tutor es requerido")]
         [StringLength(20, ErrorMessage = "El teléfono del tutor no puede exceder 20 caracteres")]
-        [Phone(ErrorMessage = "Formato de teléfono inválido")]
+        [RegularExpression(@"^[0-9\-\+\s\(\)]+$", ErrorMessage = "Formato de teléfono inválido")]
         [Display(Name = "Teléfono del Tutor")]
         public string GuardianPhone { get; set; }
 
@@ -56,6 +56,6 @@ namespace SchoolProject.ViewModels
         public DateTime EnrollmentDate { get; set; }
 
         [Display(Name = "Activo")]
-        public bool IsActive { get; set; } = true;
+        public bool IsActive { get; set; }
     }
 }

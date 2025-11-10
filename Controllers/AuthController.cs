@@ -38,8 +38,6 @@ namespace SchoolProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
-            // 1. Cierra la sesión del usuario (destruye la cookie)
-            //await _signInManager.SignOutAsync();
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             HttpContext.Session.Clear();
             return RedirectToAction("Index", "Home");
