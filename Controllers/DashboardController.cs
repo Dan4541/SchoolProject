@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SchoolProject.Data;
-using SchoolProject.Models;
 using SchoolProject.ViewModels;
 
 namespace SchoolProject.Controllers
@@ -17,7 +16,7 @@ namespace SchoolProject.Controllers
             _ctx = context;
         }
 
-
+        [HttpGet]
         public IActionResult Dashboard(string returnUrl)
         {
             ViewData["ReturnUrl"] = returnUrl;
@@ -25,70 +24,22 @@ namespace SchoolProject.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Students()
+        public async Task<IActionResult> Students(int? pageNumber)
         {
-            var students = await GetStudentsList();
-            return View("Students", students);
+            int pageSize = 8; // Número de elementos por página
+            var students = GetStudentsList();
+            var paginatedList = await PaginatedList<StudentViewModel>.CreateAsync(
+            students.AsNoTracking(), // Es mejor usar AsNoTracking para consultas de solo lectura
+            pageNumber ?? 1,
+            pageSize
+            );
+
+            return View("Students", paginatedList);
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> SaveStudent(StudentViewModel model)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        if (model.StudentId == 0)
-        //        {
-        //            // Crear nuevo estudiante
-        //            var student = new Student
-        //            {
-        //                Code = model.Code,
-        //                Name = model.Name,
-        //                Lastname = model.Lastname,
-        //                BirthDate = model.BirthDate,
-        //                Gender = model.Gender,
-        //                Address = model.Address,
-        //                Phone = model.Phone,
-        //                Email = model.Email,
-        //                GuardianName = model.GuardianName,
-        //                GuardianPhone = model.GuardianPhone,
-        //                EnrollmentDate = model.EnrollmentDate,
-        //                IsActive = model.IsActive
-        //            };
-        //            _ctx.Students.Add(student);
-        //        }
-        //        else
-        //        {
-        //            // Actualizar estudiante existente
-        //            var student = await _ctx.Students.FindAsync(model.StudentId);
-        //            if (student != null)
-        //            {
-        //                student.Code = model.Code;
-        //                student.Name = model.Name;
-        //                student.Lastname = model.Lastname;
-        //                student.BirthDate = model.BirthDate;
-        //                student.Gender = model.Gender;
-        //                student.Address = model.Address;
-        //                student.Phone = model.Phone;
-        //                student.Email = model.Email;
-        //                student.GuardianName = model.GuardianName;
-        //                student.GuardianPhone = model.GuardianPhone;
-        //                student.EnrollmentDate = model.EnrollmentDate;
-        //                student.IsActive = model.IsActive;
-        //            }
-        //        }
-
-        //        await _ctx.SaveChangesAsync();
-        //        return RedirectToAction("Students");
-        //    }
-
-        //    // Si hay errores de validación, regresar a la vista
-        //    var students = await GetStudentsList();
-        //    return View("Students", students);
-        //}
-
-        private async Task<List<StudentViewModel>> GetStudentsList()
+        private IQueryable<StudentViewModel> GetStudentsList()
         {
-            return await _ctx.Students
+            return _ctx.Students
                 .Where(s => s.IsActive)
                 .Select(s => new StudentViewModel
                 {
@@ -105,13 +56,8 @@ namespace SchoolProject.Controllers
                     GuardianPhone = s.GuardianPhone,
                     EnrollmentDate = s.EnrollmentDate,
                     IsActive = s.IsActive
-                })
-                .ToListAsync();
+                });
         }
-
-
-
-
 
 
     }

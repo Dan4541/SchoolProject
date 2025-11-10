@@ -1,5 +1,5 @@
 ﻿@using SchoolProject.ViewModels
-@model List<StudentViewModel>
+@model PaginatedList<StudentViewModel>
 @{
     ViewData["Title"] = "Gestión de Estudiantes";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -111,6 +111,42 @@
                     </tbody>
                 </table>
             </div>
+
+
+
+            @{
+                var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+                var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+            }
+
+            <div class="row mt-4">
+                <div class="col-12 d-flex justify-content-between align-items-center">
+                    <span class="text-muted">
+                        Página @Model.PageIndex de @Model.TotalPages
+                    </span>
+
+                    <div>
+                        @* Botón Anterior *@
+                        <a asp-action="Students"
+                           asp-route-pageNumber="@(Model.PageIndex - 1)"
+                           class="btn btn-sm btn-outline-secondary @prevDisabled">
+                            Anterior
+                        </a>
+
+                        @* Botón Siguiente *@
+                        <a asp-action="Students"
+                           asp-route-pageNumber="@(Model.PageIndex + 1)"
+                           class="btn btn-sm btn-outline-secondary @nextDisabled">
+                            Siguiente
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
 
             <!-- Mensaje cuando no hay estudiantes -->
             @if (!Model.Any())

@@ -21,7 +21,6 @@ namespace SchoolProject.Controllers
         {
             if (!ModelState.IsValid)
             {
-                //todo: mostrar mensaje de error
                 return RedirectToAction("Dashboard", "Dashboard");
             }
 
@@ -38,7 +37,7 @@ namespace SchoolProject.Controllers
                 GuardianName = model.GuardianName,
                 GuardianPhone = model.GuardianPhone,
                 EnrollmentDate = model.EnrollmentDate,
-                IsActive = model.IsActive // Esto ahora llega correctamente
+                IsActive = model.IsActive
             };
 
             _ctx.Students.Add(student);
