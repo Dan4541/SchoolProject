@@ -38,11 +38,13 @@
                             <i class="bi bi-people-fill"></i>
                         </div>
                         <div class="stats-content">
-                            <h3 class="stats-number">1,234</h3>
+                            <h3 class="stats-number">
+                                @(ViewBag.TotalStudents ?? 0)
+                            </h3>
                             <p class="stats-label">Estudiantes Activos</p>
                         </div>
                         <div class="stats-footer">
-                            <a href="#" class="stats-link">Ver todos <i class="bi bi-arrow-right"></i></a>
+                            <a asp-controller="Dashboard" asp-action="Students" class="stats-link">Ver todos <i class="bi bi-arrow-right"></i></a>
                         </div>
                     </div>
                 </div>
@@ -53,11 +55,13 @@
                             <i class="bi bi-person-badge"></i>
                         </div>
                         <div class="stats-content">
-                            <h3 class="stats-number">87</h3>
+                            <h3 class="stats-number">
+                                @(ViewBag.TotalProfessors ?? 0)
+                            </h3>
                             <p class="stats-label">Profesores</p>
                         </div>
                         <div class="stats-footer">
-                            <a href="#" class="stats-link">Ver todos <i class="bi bi-arrow-right"></i></a>
+                            <a asp-controller="Dashboard" asp-action="Professors" class="stats-link">Ver todos <i class="bi bi-arrow-right"></i></a>
                         </div>
                     </div>
                 </div>
@@ -68,11 +72,13 @@
                             <i class="bi bi-book"></i>
                         </div>
                         <div class="stats-content">
-                            <h3 class="stats-number">42</h3>
+                            <h3 class="stats-number">
+                                @(ViewBag.TotalCourses ?? 0)
+                            </h3>
                             <p class="stats-label">Cursos Activos</p>
                         </div>
                         <div class="stats-footer">
-                            <a href="#" class="stats-link">Ver todos <i class="bi bi-arrow-right"></i></a>
+                            <a asp-controller="Dashboard" asp-action="Courses" class="stats-link">Ver todos <i class="bi bi-arrow-right"></i></a>
                         </div>
                     </div>
                 </div>
@@ -83,11 +89,13 @@
                             <i class="bi bi-clipboard-check"></i>
                         </div>
                         <div class="stats-content">
-                            <h3 class="stats-number">856</h3>
+                            <h3 class="stats-number">
+                                @(ViewBag.TotalEnrollments ?? 0)
+                            </h3>
                             <p class="stats-label">Inscripciones</p>
                         </div>
                         <div class="stats-footer">
-                            <a href="#" class="stats-link">Ver todos <i class="bi bi-arrow-right"></i></a>
+                            <a asp-controller="Dashboard" asp-action="Enrollments" class="stats-link">Ver todos <i class="bi bi-arrow-right"></i></a>
                         </div>
                     </div>
                 </div>
@@ -136,7 +144,7 @@
                 </div>
 
                 <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
-                    <a href="#" class="action-card">
+                    <a asp-controller="Dashboard" asp-action="ClassSchedules" class="action-card">
                         <div class="action-icon bg-info">
                             <i class="bi bi-calendar-plus"></i>
                         </div>
@@ -146,7 +154,7 @@
                 </div>
 
                 <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
-                    <a href="#" class="action-card">
+                    <a asp-controller="Dashboard" asp-action="Scores" class="action-card">
                         <div class="action-icon bg-danger">
                             <i class="bi bi-clipboard2-check-fill"></i>
                         </div>

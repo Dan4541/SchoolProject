@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace SchoolProject.ViewModels
+﻿namespace SchoolProject.ViewModels
 {
     public class StudentViewModel
     {

@@ -8,21 +8,6 @@
             _ctx = context;
         }
 
-        // ==================== VISTA PRINCIPAL ====================
-        //[HttpGet]
-        //public async Task<IActionResult> Professors(int? pageNumber)
-        //{
-        //    int pageSize = 8;
-        //    var professors = GetProfessorsList();
-        //    var paginatedList = await PaginatedList<ProfessorViewModel>.CreateAsync(
-        //        professors.AsNoTracking(),
-        //        pageNumber ?? 1,
-        //        pageSize
-        //    );
-
-        //    return View("Professors", paginatedList);
-        //}
-
         // ==================== MÉTODO 1: CREAR (POST) ====================
         [HttpPost]
         [ValidateAntiForgeryToken]

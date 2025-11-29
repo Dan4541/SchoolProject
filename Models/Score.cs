@@ -1,23 +1,17 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace SchoolProject.Models
+﻿namespace SchoolProject.Models
 {
     public class Score
     {
         [Key]
         public int ScoreId { get; set; }
-
         [Required]
         public int StudentId { get; set; }
         [ForeignKey("StudentId")]
         public virtual Student? Student { get; set; }
-
         [Required]
         public int CourseId { get; set; }
         [ForeignKey("CourseId")]
         public virtual Course? Course { get; set; }
-
         [Required(ErrorMessage = "El tipo de Evaluacion es Obligatorio.")]
         [StringLength(50)]
         public string EvaluationType { get; set; } // e.g., "Exam", "Quiz", "Assignment"

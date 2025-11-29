@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace SchoolProject.Models
+﻿namespace SchoolProject.Models
 {
     public class ClassSchedule
     {
