@@ -1,10 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using SchoolProject.Data;
-using SchoolProject.ViewModels;
-
-namespace SchoolProject.Controllers
+﻿namespace SchoolProject.Controllers
 {
     [Authorize]
     public class DashboardController : Controller
@@ -26,7 +20,7 @@ namespace SchoolProject.Controllers
         [HttpGet]
         public async Task<IActionResult> Students(int? pageNumber)
         {
-            int pageSize = 8; // Número de elementos por página
+            int pageSize = 8; 
             var students = GetStudentsList();
             var paginatedList = await PaginatedList<StudentViewModel>.CreateAsync(
             students.AsNoTracking(), // Es mejor usar AsNoTracking para consultas de solo lectura
@@ -57,6 +51,130 @@ namespace SchoolProject.Controllers
                     EnrollmentDate = s.EnrollmentDate,
                     IsActive = s.IsActive
                 });
+        }
+
+
+        // ==================== PROFESORES ====================
+        [HttpGet]
+        public async Task<IActionResult> Professors(int? pageNumber)
+        {
+            int pageSize = 8;
+            var professors = GetProfessorsList();
+            var paginatedList = await PaginatedList<ProfessorViewModel>.CreateAsync(
+                professors.AsNoTracking(),
+                pageNumber ?? 1,
+                pageSize
+            );
+
+            return View("Professors", paginatedList);
+        }
+
+        private IQueryable<ProfessorViewModel> GetProfessorsList()
+        {
+            return _ctx.Professors
+                .Where(p => p.IsActive)
+                .Select(p => new ProfessorViewModel
+                {
+                    ProfessorId = p.ProfessorId,
+                    Code = p.Code,
+                    Name = p.Name,
+                    LastName = p.LastName,
+                    Email = p.Email,
+                    Phone = p.Phone,
+                    Department = p.Department,
+                    HiringDate = p.HiringDate,
+                    IsActive = p.IsActive
+                });
+        }
+
+        // ==================== CURSOS ====================
+        [HttpGet]
+        public async Task<IActionResult> Courses(int? pageNumber)
+        {
+            int pageSize = 8;
+            var courses = GetCoursesList();
+            var paginatedList = await PaginatedList<CourseViewModel>.CreateAsync(
+                courses.AsNoTracking(),
+                pageNumber ?? 1,
+                pageSize
+            );
+
+            // Pasar lista de profesores activos para el selector
+            ViewBag.Professors = await _ctx.Professors
+                .Where(p => p.IsActive)
+                .Select(p => new { p.ProfessorId, FullName = p.Name + " " + p.LastName })
+                .ToListAsync();
+
+            return View("Courses", paginatedList);
+        }
+
+        private IQueryable<CourseViewModel> GetCoursesList()
+        {
+            return _ctx.Courses
+                .Where(c => c.IsActive)
+                .Include(c => c.Professor)
+                .Select(c => new CourseViewModel
+                {
+                    CourseId = c.CourseId,
+                    Code = c.Code,
+                    Name = c.Name,
+                    Description = c.Description,
+                    Credits = c.Credits,
+                    Level = c.Level,
+                    Grade = c.Grade,
+                    IsActive = c.IsActive,
+                    ProfessorId = c.ProfessorId,
+                    ProfessorName = c.Professor != null ? c.Professor.Name + " " + c.Professor.LastName : "Sin asignar"
+                });
+        }
+
+        // ==================== INSCRIPCIONES ====================
+        [HttpGet]
+        public async Task<IActionResult> Enrollments(int? pageNumber)
+        {
+            int pageSize = 10;
+            var enrollments = GetEnrollmentsList();
+            var paginatedList = await PaginatedList<EnrollmentViewModel>.CreateAsync(
+                enrollments.AsNoTracking(),
+                pageNumber ?? 1,
+                pageSize
+            );
+
+            // Pasar lista de estudiantes activos
+            ViewBag.Students = await _ctx.Students
+                .Where(s => s.IsActive)
+                .Select(s => new { s.StudentId, FullName = s.Name + " " + s.Lastname, s.Code })
+                .ToListAsync();
+
+            // Pasar lista de cursos activos
+            ViewBag.Courses = await _ctx.Courses
+                .Where(c => c.IsActive)
+                .Select(c => new { c.CourseId, c.Name, c.Code })
+                .ToListAsync();
+
+            return View("~/Views/Dashboard/Enrollments.cshtml", paginatedList);
+        }
+
+        private IQueryable<EnrollmentViewModel> GetEnrollmentsList()
+        {
+            return _ctx.Enrollments
+                .Where(e => e.IsActive)
+                .Include(e => e.Student)
+                .Include(e => e.Course)
+                .Select(e => new EnrollmentViewModel
+                {
+                    EnrollmentId = e.EnrollmentId,
+                    StudentId = e.StudentId,
+                    StudentCode = e.Student != null ? e.Student.Code : "N/A",
+                    StudentName = e.Student != null ? e.Student.Name + " " + e.Student.Lastname : "Sin asignar",
+                    CourseId = e.CourseId,
+                    CourseCode = e.Course != null ? e.Course.Code : "N/A",
+                    CourseName = e.Course != null ? e.Course.Name : "Sin asignar",
+                    Period = e.Period,
+                    EnrollmentDate = e.EnrollmentDate,
+                    IsActive = e.IsActive
+                })
+                .OrderByDescending(e => e.EnrollmentDate);
         }
 
 

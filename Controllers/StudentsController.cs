@@ -1,11 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using SchoolProject.Data;
-using SchoolProject.Models;
-using SchoolProject.ViewModels;
-
-namespace SchoolProject.Controllers
+﻿namespace SchoolProject.Controllers
 {
+    [Authorize]
     public class StudentsController : Controller
     {
         private readonly ApplicationDbContext _ctx;

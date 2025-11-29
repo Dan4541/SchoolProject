@@ -170,7 +170,7 @@ namespace SchoolProject.Controllers
             // Validaciones adicionales si se está creando perfil de profesor
             if (model.CreateProfessorProfile)
             {
-                var codigoProfesorExiste = await _ctx.Profesors
+                var codigoProfesorExiste = await _ctx.Professors
                     .AnyAsync(p => p.Code == model.ProfessorCode);
 
                 if (codigoProfesorExiste)
@@ -179,7 +179,7 @@ namespace SchoolProject.Controllers
                     return View(model);
                 }
 
-                var emailProfesorExiste = await _ctx.Profesors
+                var emailProfesorExiste = await _ctx.Professors
                     .AnyAsync(p => p.Email == model.Email);
 
                 if (emailProfesorExiste)
@@ -222,7 +222,7 @@ namespace SchoolProject.Controllers
                         UserId = nuevoUsuario.UserId
                     };
 
-                    _ctx.Profesors.Add(nuevoProfesor);
+                    _ctx.Professors.Add(nuevoProfesor);
                     await _ctx.SaveChangesAsync();
                 }
 

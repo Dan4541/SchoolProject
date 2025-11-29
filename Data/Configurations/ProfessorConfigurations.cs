@@ -1,8 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using SchoolProject.Models;
-
-namespace SchoolProject.Data.Configurations
+﻿namespace SchoolProject.Data.Configurations
 {
     public class ProfessorConfigurations : IEntityTypeConfiguration<Professor>
     {

@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System.ComponentModel.DataAnnotations;
-
-namespace SchoolProject.Models
+﻿namespace SchoolProject.Models
 {
     public class User : IdentityUser
     {
@@ -29,7 +26,6 @@ namespace SchoolProject.Models
         [Required(ErrorMessage = "El Rol es Obligatorio.")]
         [StringLength(20, ErrorMessage = "El Rol no debe exceder los 20 caracteres.")]
         public string Role { get; set; }
-
         public bool IsActive { get; set; } = true;
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime LastAccess { get; set; }

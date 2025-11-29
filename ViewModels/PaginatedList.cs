@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace SchoolProject.ViewModels
+﻿namespace SchoolProject.ViewModels
 {
     public class PaginatedList<T> : List<T>
     {

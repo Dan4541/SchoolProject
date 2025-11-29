@@ -1,0 +1,10 @@
+﻿global using Microsoft.AspNetCore.Identity;
+global using System.ComponentModel.DataAnnotations;
+global using Microsoft.EntityFrameworkCore;
+global using Microsoft.EntityFrameworkCore.Metadata.Builders;
+global using SchoolProject.Models;
+global using Microsoft.AspNetCore.Authorization;
+global using Microsoft.AspNetCore.Mvc;
+global using SchoolProject.Data;
+global using SchoolProject.ViewModels;
+global using System.ComponentModel.DataAnnotations.Schema;
